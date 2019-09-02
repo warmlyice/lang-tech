@@ -12,7 +12,29 @@ class Parser {
   expression () {
     return this.addition()
   }
+  /* 左递归(死循环)  -->  右递归(结合性) -->  EBNF循环( '+' NUMBER )*
+   * ---------------------------------------
+   expr     := addition
+   addition := NUMBER ( '+' NUMBER )*
+   NUMBER   := [0-9]+
+   * ---------------------------------------
+   */
   addition () {
+    let childLeft = this.literal()
+    while (this.match(TokenType.PLUS)) {
+      let childRight = this.literal()
+      childLeft = new ExprBinary('+', childLeft, childRight)
+    }
+    return childLeft
+  }
+  /* right recursive Associativity(结合性) 右结合，从右到左计算
+   * ---------------------------------------
+   expr     := addition
+   addition := NUMBER | NUMBER '+' addition
+   NUMBER   := [0-9]+
+   * ---------------------------------------
+   */
+  additionRightRecursive () {
     let childLeft = this.literal()
     if (childLeft && this.match(TokenType.PLUS)) {
       childLeft = new ExprBinary('+', childLeft, this.addition())
