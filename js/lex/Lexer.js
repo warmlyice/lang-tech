@@ -44,8 +44,14 @@ export default class Lexer {
         // TODO *=
         t = new Token(TokenType.STAR, '*')
         break
+      case '/':
+        t = new Token(TokenType.SLASH, '/')
+        break
       case '+':
         t = new Token(TokenType.PLUS, '+')
+        break
+      case '-':
+        t = new Token(TokenType.MINUS, '-')
         break
       default:
         if (isDigital(this.ch)) {

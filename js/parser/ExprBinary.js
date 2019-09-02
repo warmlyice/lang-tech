@@ -1,6 +1,6 @@
 export default class ExprBinary {
-  constructor (operand, left, right) {
-    this.operand = operand
+  constructor (operator, left, right) {
+    this.operator = operator
     this.left = left
     this.right = right
   }

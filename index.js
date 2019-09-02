@@ -28,7 +28,7 @@ function syncDOM (node) {
   if (node.token) {
     el.innerHTML = '[' + node.token.type + '] '+ node.token.text
   } else {
-    el.innerHTML = '[' + node.operand + ']'
+    el.innerHTML = '[' + node.operator + ']'
   }
   if (node.left) {
     el.appendChild(syncDOM(node.left))

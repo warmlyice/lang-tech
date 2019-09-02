@@ -14,16 +14,33 @@ class Parser {
   }
   /* 左递归(死循环)  -->  右递归(结合性) -->  EBNF循环( '+' NUMBER )*
    * ---------------------------------------
-   expr     := addition
-   addition := NUMBER ( '+' NUMBER )*
-   NUMBER   := [0-9]+
+   expr           := addition
+   addition       := multiplication ( '+' multiplication )*
+   multiplication := NUMBER ( '+' NUMBER )*
+   NUMBER         := [0-9]+
    * ---------------------------------------
    */
   addition () {
+    let childLeft = this.multiplication()
+    while (this.match([TokenType.PLUS, TokenType.MINUS])) {
+      let operator = this.previous().text
+      let childRight = this.multiplication()
+      if (!childRight) {
+        // throw new Error('syntax error: there should be token after "+"')
+      }
+      childLeft = new ExprBinary(operator, childLeft, childRight)
+    }
+    return childLeft
+  }
+  multiplication () {
     let childLeft = this.literal()
-    while (this.match(TokenType.PLUS)) {
+    while (this.match([TokenType.STAR, TokenType.SLASH])) {
+      let operator = this.previous().text
       let childRight = this.literal()
-      childLeft = new ExprBinary('+', childLeft, childRight)
+      if (!childRight) {
+        // throw new Error('syntax error: there should be token after "+"')
+      }
+      childLeft = new ExprBinary(operator, childLeft, childRight)
     }
     return childLeft
   }
@@ -47,8 +64,16 @@ class Parser {
       return new ExprLiteral(t)
     }
   }
+  previous () {
+    return this.tokens[this.current - 1]
+  }
   match (type) {
-    if (this.tokens[this.current].type === type) {
+    if (this.current > this.tokens.length - 1) return false
+    let types = type
+    if (!Array.isArray(type)) {
+      types = [type]
+    }
+    if (types.indexOf(this.tokens[this.current].type) > -1) {
       this.current++
       return true
     }
