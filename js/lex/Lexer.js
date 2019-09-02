@@ -40,6 +40,12 @@ export default class Lexer {
       case undefined:
         t = new Token(TokenType.EOF)
         break
+      case '(':
+        t = new Token(TokenType.LEFT_PAREN, '(')
+        break
+      case ')':
+        t = new Token(TokenType.RIGHT_PAREN, ')')
+        break
       case '*':
         // TODO *=
         t = new Token(TokenType.STAR, '*')

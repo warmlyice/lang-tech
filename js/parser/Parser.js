@@ -14,10 +14,10 @@ class Parser {
   }
   /* 左递归(死循环)  -->  右递归(结合性) -->  EBNF循环( '+' NUMBER )*
    * ---------------------------------------
-   expr           := addition
+   expression     := addition
    addition       := multiplication ( '+' multiplication )*
-   multiplication := NUMBER ( '+' NUMBER )*
-   NUMBER         := [0-9]+
+   multiplication := literal ( '+' literal )*
+   literal        := '(' expression ')' | NUMBER
    * ---------------------------------------
    */
   addition () {
@@ -50,7 +50,6 @@ class Parser {
    addition := NUMBER | NUMBER '+' addition
    NUMBER   := [0-9]+
    * ---------------------------------------
-   */
   additionRightRecursive () {
     let childLeft = this.literal()
     if (childLeft && this.match(TokenType.PLUS)) {
@@ -58,8 +57,14 @@ class Parser {
     }
     return childLeft
   }
+  */
   literal () {
     let t = this.getToken()
+    if (t.type === TokenType.LEFT_PAREN) {
+      let expr = this.expression()
+      this.mustBe(TokenType.RIGHT_PAREN)
+      return expr
+    }
     if (t.type === TokenType.NUMBER) {
       return new ExprLiteral(t)
     }
@@ -76,6 +81,13 @@ class Parser {
     if (types.indexOf(this.tokens[this.current].type) > -1) {
       this.current++
       return true
+    }
+  }
+  mustBe (type) {
+    if (this.match(type)) {
+      return true
+    } else {
+      throw new Error('must be: ' + type)
     }
   }
   getToken () {
