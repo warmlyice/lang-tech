@@ -4,5 +4,7 @@
 *.iml
 target/
 .idea/
+*.o
 
+cmake-build-debug/
 test.dSYM/
