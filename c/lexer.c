@@ -1,7 +1,3 @@
-//
-// Created by stormhouse on 22/9/2019.
-//
-
 #include "lexer.h"
 
 int start = 0;
