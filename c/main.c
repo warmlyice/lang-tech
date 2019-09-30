@@ -4,22 +4,20 @@
 int main(int argc, char const *argv[]) {
   Chunk chunk;
   initChunk(&chunk);
+  int value = addConstant(&chunk, 1.2);
+  writeChunk(&chunk, OP_CONSTANT);
+  writeChunk(&chunk, value);
+  int value2 = addConstant(&chunk, 1.234);
+  writeChunk(&chunk, OP_CONSTANT);
+  writeChunk(&chunk, value2);
+
+  int value3 = addConstant(&chunk, 1.23456);
+  writeChunk(&chunk, OP_CONSTANT);
+  writeChunk(&chunk, value3);
   writeChunk(&chunk, OP_RETURN);
   writeChunk(&chunk, OP_RETURN);
-  writeChunk(&chunk, OP_RETURN);
-  writeChunk(&chunk, OP_RETURN);
-  writeChunk(&chunk, OP_RETURN);
-  writeChunk(&chunk, OP_RETURN);
-  writeChunk(&chunk, OP_RETURN);
-  writeChunk(&chunk, OP_RETURN);
-  writeChunk(&chunk, OP_RETURN);
-  for (int i=0; i<chunk.size; i++) {
-    printf("code: %d    size: %d    capacity: %d\n", chunk.code[i], chunk.size, chunk.capacity);
-  }
-//  printf("%d\n", sizeof(char));
-//  printf("%d\n", ABS(-3));
-//  printf("%d\n", ABS(-0));
-//  printf("%d\n", ABS(0));
+
+  disassembleChunk(&chunk);
 
 //  char *source = "123+456";
 //  initLexer(source);
