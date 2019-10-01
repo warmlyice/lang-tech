@@ -3,6 +3,10 @@
 //
 
 #include "value.h"
+
+void printValue(Value value) {
+  printf("%g\n", value);
+}
 void initValueArray(ValueArray *valueArray) {
   valueArray->capacity = 0;
   valueArray->size = 0;
