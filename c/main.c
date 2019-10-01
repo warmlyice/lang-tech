@@ -7,15 +7,12 @@ int main(int argc, char const *argv[]) {
   Chunk chunk;
 
   initChunk(&chunk);
-//  int value = addConstant(&chunk, 0.000001);
-//  writeChunk(&chunk, OP_CONSTANT);
-//  writeChunk(&chunk, value);
-  int value2 = addConstant(&chunk, 1.234);
+
+  int value = addConstant(&chunk, 1.2);
   writeChunk(&chunk, OP_CONSTANT);
-  writeChunk(&chunk, value2);
-//
-  writeChunk(&chunk, OP_CONSTANT);
-  writeChunk(&chunk, addConstant(&chunk, 1.288484));
+  writeChunk(&chunk, value);
+
+  writeChunk(&chunk, OP_NEGATE);
 
   writeChunk(&chunk, OP_RETURN);
 

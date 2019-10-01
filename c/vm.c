@@ -5,18 +5,28 @@
 #include "vm.h"
 
 VM vm;
-void initVM() {}
+void initVM() {
+  vm.stackTop = vm.stack;
+}
 InterpreterResult run () {
 #define READ_BYTE() (*vm.ip++)
 #define READ_CONSTANT() (vm.chunk.constants.values[READ_BYTE()])
   for (;;) {
     uint8_t instruction;
     switch (instruction = READ_BYTE()) {
-      case OP_RETURN:
+      case OP_RETURN: {
+        Value value = pop();
+        printValue(value);
         return INTERPRETER_OK;
+      }
       case OP_CONSTANT: {
         Value value = READ_CONSTANT();
-        printValue(value);
+        push(value);
+        break;
+      }
+      case OP_NEGATE: {
+        push(-pop());
+        break;
       }
       default:
         break;
@@ -27,6 +37,15 @@ InterpreterResult run () {
 #undef READ_CONSTANT
 }
 
+void push(Value value) {
+  *vm.stackTop = value;
+  vm.stackTop++;
+}
+Value pop() {
+  Value value = *(vm.stackTop - 1);
+  vm.stackTop--;
+  return value;
+}
 InterpreterResult interpreter(Chunk *chunk) {
   vm.chunk = *chunk;
   vm.ip = chunk->code;
