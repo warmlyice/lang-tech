@@ -13,8 +13,9 @@ int addConstant(Chunk *chunk, Value value) {
 }
 void writeChunk(Chunk *chunk, u_int8_t code) {
   if (chunk->size >= chunk->capacity) {
-    chunk->code = reallocate(chunk->code, chunk->capacity, GROW_CAPACITY(chunk->capacity));
+    int oldCapacity = chunk->capacity;
     chunk->capacity = GROW_CAPACITY(chunk->capacity);
+    chunk->code = GROW_ARRAY(chunk->code, size_t, oldCapacity, chunk->capacity);
   }
   chunk->code[chunk->size] = code;
   chunk->size++;
@@ -29,6 +30,7 @@ void disassembleChunk(Chunk *chunk) {
         break;
       case OP_CONSTANT:
         i++;
+        printf("\nindex of constant pool: %d===\n", chunk->code[i]);
         printf("OP_CONSTANT: %lf    size: %d    capacity: %d\n", chunk->constants.values[chunk->code[i]], chunk->size, chunk->capacity);
         break;
       default:

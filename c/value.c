@@ -11,9 +11,9 @@ void initValueArray(ValueArray *valueArray) {
 
 int writeValueArray(ValueArray *valueArray, Value value) {
   if (valueArray->size >= valueArray->capacity) {
-    valueArray->values = reallocate(valueArray->values,
-        valueArray->capacity, GROW_CAPACITY(valueArray->capacity));
+    int oldCapacity = valueArray->capacity;
     valueArray->capacity = GROW_CAPACITY(valueArray->capacity);
+    valueArray->values = GROW_ARRAY(valueArray->values, Value, oldCapacity, valueArray->capacity);
   }
   valueArray->values[valueArray->size] = value;
   valueArray->size++;

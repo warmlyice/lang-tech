@@ -11,5 +11,6 @@
 #define GROW_CAPACITY(capacity) (capacity == 0 ? 8 : capacity * 2)
 void *reallocate(void *p, size_t oldSize, size_t newSize);
 
+#define GROW_ARRAY(p, type, oldSize, newSize) reallocate(p, sizeof(type) * oldSize, sizeof(type) * newSize)
 
 #endif //C_UTIL_H
