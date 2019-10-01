@@ -1,29 +1,20 @@
 #include "chunk.h"
 
 void initChunk(Chunk *chunk) {
-  chunk->capacity = 8;
+  chunk->capacity = 0;
   chunk->size = 0;
-  chunk->code = reallocate(chunk->code, 0, chunk->capacity);
-  chunk->code[0] = 120;
+  chunk->code = NULL;
 
-  chunk->constants.capacity = 8;
-  chunk->constants.size = 0;
-  chunk->constants.values = NULL;
-  chunk->constants.values = (double *)reallocate(chunk->constants.values, 0, sizeof(double) * chunk->constants.capacity);
+  initValueArray(&chunk->constants);
 }
-int addConstant(Chunk *chunk, double value) {
-  if (chunk->constants.size >= chunk->constants.capacity) {
-    chunk->constants.values = reallocate(chunk->constants.values, chunk->constants.capacity, chunk->constants.capacity * 2);
-    chunk->constants.capacity = chunk->constants.capacity * 2;
-  }
-  chunk->constants.values[chunk->constants.size] = value;
-  chunk->constants.size++;
-  return chunk->constants.size - 1;
+int addConstant(Chunk *chunk, Value value) {
+  int index = writeValueArray(&chunk->constants, value);
+  return index;
 }
 void writeChunk(Chunk *chunk, u_int8_t code) {
   if (chunk->size >= chunk->capacity) {
-    chunk->code = reallocate(chunk->code, chunk->capacity, chunk->capacity * 2);
-    chunk->capacity = chunk->capacity * 2;
+    chunk->code = reallocate(chunk->code, chunk->capacity, GROW_CAPACITY(chunk->capacity));
+    chunk->capacity = GROW_CAPACITY(chunk->capacity);
   }
   chunk->code[chunk->size] = code;
   chunk->size++;
