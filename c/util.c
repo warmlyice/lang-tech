@@ -4,6 +4,10 @@
 
 #include "util.h"
 
-char *reallocate(char *p, int oldSize, int newSize) {
+void *reallocate(void *p, size_t oldSize, size_t newSize) {
+  if (newSize == 0) {
+    free(p);
+    return NULL;
+  }
   return realloc(p, newSize);
 }

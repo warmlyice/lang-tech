@@ -6,6 +6,7 @@
 #define C_COMMON_H
 
 #include <stdlib.h>
+#include <stdio.h>
 
 typedef double Value;
 

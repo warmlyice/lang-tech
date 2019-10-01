@@ -1,9 +1,7 @@
 #ifndef C_CHUNK_H
 #define C_CHUNK_H
 
-#include <stdint.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include "common.h"
 #include "util.h"
 #include "value.h"
 

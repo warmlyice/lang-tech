@@ -5,8 +5,11 @@
 #ifndef C_UTIL_H
 #define C_UTIL_H
 
-#include <stdlib.h>
+#include "common.h"
 
-char *reallocate(char *p, int oldSize, int newSize);
+
+#define GROW_CAPACITY(capacity) (capacity == 0 ? 8 : capacity * 2)
+void *reallocate(void *p, size_t oldSize, size_t newSize);
+
 
 #endif //C_UTIL_H
