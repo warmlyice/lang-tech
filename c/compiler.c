@@ -14,6 +14,9 @@ static void emitReturn(Chunk *chunk) {
 }
 void compile(Chunk *chunk, const char *source) {
   initLexer(source);
+//  advance();
+//  expression();
+//  consume(TOKEN_EOF);
   while (1) {
     Token token = scanToken();
     switch (token.type) {

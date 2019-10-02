@@ -11,6 +11,7 @@
 typedef enum {
   PLUS,
   NUMBER,
+  TOKEN_EOF,
 } TokenType;
 
 typedef struct {
