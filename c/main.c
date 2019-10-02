@@ -1,6 +1,7 @@
 #include "lexer.h"
 #include "chunk.h"
 #include "vm.h"
+#include "compiler.h"
 
 int main(int argc, char const *argv[]) {
   initVM();
@@ -8,26 +9,11 @@ int main(int argc, char const *argv[]) {
 
   initChunk(&chunk);
 
-  int value = addConstant(&chunk, 1.2);
-  writeChunk(&chunk, OP_CONSTANT);
-  writeChunk(&chunk, value);
-
-  writeChunk(&chunk, OP_NEGATE);
-
-  writeChunk(&chunk, OP_RETURN);
+  char *source = "123.456";
+  compile(&chunk, source);
 
   interpreter(&chunk);
 
 //  disassembleChunk(&chunk);
-//
-//  char *source = "123+456";
-//  initLexer(source);
-//  while (1) {
-//    Token token = scanToken();
-//    if (token.type == EOF) {
-//      break;
-//    }
-//    printf("%d---%.*s\n\n", token.type, token.size, token.text);
-//  }
   return 0;
 }
