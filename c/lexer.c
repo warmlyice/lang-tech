@@ -1,5 +1,7 @@
 #include "lexer.h"
 
+
+
 int start = 0;
 int current = 0;
 int ch;
@@ -25,17 +27,17 @@ Token number() {
     }
     current++;
   }
-  return generateToken(NUMBER);
+  return generateToken(TOKEN_NUMBER);
 }
 Token scanToken() {
   while (1) {
     Token token;
-    token.type = EOF;
+    token.type = TOKEN_EOF;
     ch = source[current];
     if (ch == '\0') break;
     switch (ch) {
       case '+':
-        token = generateToken(PLUS);
+        token = generateToken(TOKEN_PLUS);
         break;
       default:
         if (isdigit(ch)){

@@ -9,10 +9,14 @@
 #include <ctype.h>
 
 typedef enum {
-  PLUS,
-  NUMBER,
+  TOKEN_PLUS,
+  TOKEN_NUMBER,
   TOKEN_EOF,
 } TokenType;
+typedef struct {
+  char str[20];
+} TokenTypeStr;
+
 
 typedef struct {
   TokenType type;

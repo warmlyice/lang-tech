@@ -8,6 +8,23 @@
 #include "chunk.h"
 #include "lexer.h"
 
+typedef struct {
+  Token current;
+} Parser;
+typedef enum {
+  PREC_NONE,
+  PREC_TERM,
+  PREC_UNARY,
+  PREC_PRIMARY,
+} Precedence;
+typedef void (*ParseFn)();  //
+
+typedef struct {
+  ParseFn prefix;
+  ParseFn infix;
+  Precedence precedence;
+} ParseRule;
+
 void compile(Chunk *chunk, const char *source);
 
 #endif //C_COMPILER_H

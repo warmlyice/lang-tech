@@ -9,10 +9,10 @@ int main(int argc, char const *argv[]) {
 
   initChunk(&chunk);
 
-  char *source = "123.456";
+  char *source = "123+456";
   compile(&chunk, source);
 
-  interpreter(&chunk);
+//  interpreter(&chunk);
 
 //  disassembleChunk(&chunk);
   return 0;
