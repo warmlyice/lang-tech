@@ -28,6 +28,10 @@ InterpreterResult run () {
         push(-pop());
         break;
       }
+      case OP_ADD: {
+        push(pop() + pop());
+        break;
+      }
       default:
         break;
     }

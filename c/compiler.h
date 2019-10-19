@@ -9,10 +9,12 @@
 #include "lexer.h"
 
 typedef struct {
+  Token previous;
   Token current;
 } Parser;
 typedef enum {
   PREC_NONE,
+  PREC_ASSIGN,
   PREC_TERM,
   PREC_UNARY,
   PREC_PRIMARY,
@@ -24,7 +26,10 @@ typedef struct {
   ParseFn infix;
   Precedence precedence;
 } ParseRule;
-
+static void emitByte(uint8_t byte);
+static void makeConstant();
+static void parsePrecedence(Precedence precedence);
+static ParseRule getRule(Token token);
 void compile(Chunk *chunk, const char *source);
 
 #endif //C_COMPILER_H

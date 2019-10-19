@@ -33,6 +33,8 @@ void disassembleChunk(Chunk *chunk) {
         printf("\nindex of constant pool: %d===\n", chunk->code[i]);
         printf("OP_CONSTANT: %lf    size: %d    capacity: %d\n", chunk->constants.values[chunk->code[i]], chunk->size, chunk->capacity);
         break;
+      case OP_ADD:
+        printf("OP_ADD\n");
       default:
         printf("unknown instruction: %d\n", op);
     }
