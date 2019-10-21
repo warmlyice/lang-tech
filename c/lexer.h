@@ -8,8 +8,14 @@
 #include <stdio.h>
 #include <ctype.h>
 
+/**
+ * sync with
+ * 1. compiler.c  rules
+ * 2. compiler.c  tokenTypeStr
+ */
 typedef enum {
   TOKEN_PLUS,
+  TOKEN_MULTIPLY,
   TOKEN_NUMBER,
   TOKEN_EOF,
 } TokenType;

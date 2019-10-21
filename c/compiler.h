@@ -16,6 +16,7 @@ typedef enum {
   PREC_NONE,
   PREC_ASSIGN,
   PREC_TERM,
+  PREC_FACTOR,
   PREC_UNARY,
   PREC_PRIMARY,
 } Precedence;

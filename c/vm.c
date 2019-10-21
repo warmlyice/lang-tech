@@ -32,6 +32,10 @@ InterpreterResult run () {
         push(pop() + pop());
         break;
       }
+      case OP_MULTIPLY: {
+        push(pop() * pop());
+        break;
+      }
       default:
         break;
     }

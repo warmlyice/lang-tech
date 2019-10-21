@@ -8,6 +8,7 @@
 
 TokenTypeStr tokenTypeStr[] = {
   {"+"},
+  {"*"},
   {"number"},
   {"EOF"},
 };
@@ -31,9 +32,11 @@ static void binary() {
   ParseRule rule = getRule(token);
   parsePrecedence(rule.precedence + 1);
   switch (token.type) {
-    case TOKEN_PLUS:  emitByte(OP_ADD); break;
+    case TOKEN_PLUS: { emitByte(OP_ADD); break; }
+    case TOKEN_MULTIPLY: {
+      emitByte(OP_MULTIPLY); break;
+    }
   }
-  printf("binary\n");
 }
 static void number() {
   double value = strtod(parser.previous.text, NULL);
@@ -41,9 +44,10 @@ static void number() {
 //  parsePrecedence(PREC_TERM);
 }
 ParseRule rules[] = {
-  { NULL, binary, PREC_TERM },
-  { number, NULL, PREC_NONE },
-  { NULL, NULL, PREC_NONE },
+  { NULL, binary, PREC_TERM },  // +
+  { NULL, binary, PREC_FACTOR },  // *
+  { number, NULL, PREC_NONE },  // number
+  { NULL, NULL, PREC_NONE },    // EOF
 };
 static ParseRule getRule(Token token) {
   return rules[token.type];
@@ -75,7 +79,7 @@ static void parsePrecedence(Precedence precedence) {
     printf("error");
   }
   prefix();
-  while(precedence < getRule(parser.current).precedence) {
+  while(precedence <= getRule(parser.current).precedence) {
     advance();
     ParseFn infix = getRule(parser.previous).infix;
     infix();
