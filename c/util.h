@@ -8,6 +8,7 @@
 #include "common.h"
 
 
+#define ARITHMETIC(operator, operand1, operand2) (operand1 operator operand2)
 #define GROW_CAPACITY(capacity) (capacity == 0 ? 8 : capacity * 2)
 void *reallocate(void *p, size_t oldSize, size_t newSize);
 

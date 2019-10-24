@@ -29,11 +29,11 @@ InterpreterResult run () {
         break;
       }
       case OP_ADD: {
-        push(pop() + pop());
+        push(ARITHMETIC(+, pop(), pop()));
         break;
       }
       case OP_MULTIPLY: {
-        push(pop() * pop());
+        push(ARITHMETIC(*, pop(), pop()));
         break;
       }
       default:
