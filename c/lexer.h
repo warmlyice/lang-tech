@@ -15,6 +15,7 @@
  */
 typedef enum {
   TOKEN_PLUS,
+  TOKEN_MINUS,
   TOKEN_MULTIPLY,
   TOKEN_NUMBER,
   TOKEN_EOF,

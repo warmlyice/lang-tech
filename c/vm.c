@@ -32,6 +32,13 @@ InterpreterResult run () {
         push(ARITHMETIC(+, pop(), pop()));
         break;
       }
+      case OP_MINUS: {
+        Value v1 = pop();
+        Value v2 = pop();
+        push(ARITHMETIC(-, v2, v1));
+//        push(ARITHMETIC(-, pop(), pop()));
+        break;
+      }
       case OP_MULTIPLY: {
         push(ARITHMETIC(*, pop(), pop()));
         break;

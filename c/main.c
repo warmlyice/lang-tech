@@ -10,7 +10,7 @@ int main(int argc, char const *argv[]) {
   initChunk(&chunk);
 
 //  char *source = "1+2*3";
-  char *source = "1*2+3";
+  char *source = "-1*2-3*4";
   compile(&chunk, source);
 
   interpreter(&chunk);

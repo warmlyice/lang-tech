@@ -39,6 +39,10 @@ Token scanToken() {
       case '+':
         token = generateToken(TOKEN_PLUS);
         break;
+      case '-': {
+        token = generateToken(TOKEN_MINUS);
+        break;
+      }
       case '*':
         token = generateToken(TOKEN_MULTIPLY);
         break;

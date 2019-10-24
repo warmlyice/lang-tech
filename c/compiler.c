@@ -8,6 +8,7 @@
 
 TokenTypeStr tokenTypeStr[] = {
   {"+"},
+  {"-"},
   {"*"},
   {"number"},
   {"EOF"},
@@ -25,6 +26,12 @@ static void advance() {
 }
 
 static void unary() {
+  if (parser.previous.type == TOKEN_MINUS) {
+    double value = strtod(parser.current.text, NULL);
+    makeConstant(value);
+    emitByte(OP_NEGATE);
+    advance();
+  }
   printf("unary\n");
 }
 static void binary() {
@@ -33,6 +40,7 @@ static void binary() {
   parsePrecedence(rule.precedence + 1);
   switch (token.type) {
     case TOKEN_PLUS: { emitByte(OP_ADD); break; }
+    case TOKEN_MINUS: { emitByte(OP_MINUS); break; }
     case TOKEN_MULTIPLY: {
       emitByte(OP_MULTIPLY); break;
     }
@@ -45,6 +53,7 @@ static void number() {
 }
 ParseRule rules[] = {
   { NULL, binary, PREC_TERM },  // +
+  { unary, binary, PREC_TERM },  // -
   { NULL, binary, PREC_FACTOR },  // *
   { number, NULL, PREC_NONE },  // number
   { NULL, NULL, PREC_NONE },    // EOF
@@ -58,7 +67,6 @@ static void printToken(Token token) {
 }
 static void emitByte(uint8_t byte) {
   writeChunk(currentChunk(), byte);
-
 }
 static void emitByteCode(Chunk *chunk, type, Value value) {
   int v = addConstant(chunk, value);
